@@ -26,13 +26,13 @@ Help Options:
   -h, --help    Show this help message
 ```
 
-or input from stdin
+support input from stdin.
 
 ```
 cat examples/nfldb.er | erd-go
 ```
 
-convert to png from dot (use dot command)
+ex.) convert to png from dot (use dot command)
 
 ```
 cat examples/nfldb.er | erd-go | dot -Tpng -o nfldb.png
@@ -40,24 +40,19 @@ cat examples/nfldb.er | erd-go | dot -Tpng -o nfldb.png
 
 ## Example
 
-see [examples directory](https://github.com/kaishuu0123/erd-go/blob/master/examples/nfldb.er)
+see [examples directory](https://github.com/kaishuu0123/erd-go/blob/master/examples)
 
 ## Build Instruction
 
-* install glide
-
+1. install glide
 ```
 go get github.com/Masterminds/glide
 ```
-
-* install go-bindata
-
+1. install go-bindata
 ```
 go get github.com/jteeuwen/go-bindata
 ```
-
-* make
-
+1. make
 ```
 make
 ```
