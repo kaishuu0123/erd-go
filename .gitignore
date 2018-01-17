@@ -2,3 +2,4 @@
 /*.png
 vendor/**/*
 erd-go
+*.swp
