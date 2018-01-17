@@ -16,4 +16,8 @@ script:
   - goveralls -coverprofile=coverage.out -service travis-ci -repotoken $COVERALLS_TOKEN
 after_success:
   - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
-  - ghr --username kaishuu0123 --token $GITHUB_TOKEN --replace --prerelease --debug pre-release dist/
+deploy:
+  provider: script
+  script: ghr --username kaishuu0123 --token $GITHUB_TOKEN --replace --debug $(git tag -l --contains HEAD) dist/
+  on:
+    tags: true
