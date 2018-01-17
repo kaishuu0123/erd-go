@@ -1,0 +1,69 @@
+package main
+
+type Parser Peg {
+    Erd
+}
+
+root <- expression EOT /
+    expression <.+> {p.Err(begin, buffer)} EOT /
+    <.+> {p.Err(begin, buffer)} EOT
+EOT <- !.
+
+expression <-
+    (title_info / relation_info / table_info / comment_line / empty_line)*
+
+empty_line <- ws { p.ClearTableAndColumn() }
+
+comment_line <- space* '#' comment_string newline
+
+title_info <- 'title' ws* '{' ws* (title_attribute ws* attribute_sep? ws*)* ws* '}' newline
+
+table_info <-
+    '[' table_title ']' (space* '{' ws* (table_attribute ws* attribute_sep?)* ws* '}' space*)? newline (table_column / empty_line)*
+
+table_title <-
+    <string> { p.AddTable(text) }
+table_column <-
+    space* column_name (space* '{' ws* (column_attribute ws* attribute_sep?)* ws* '}' space*)? newline
+column_name <-
+    <string> { p.AddColumn(text) }
+
+relation_info <-
+    space* relation_left space* cardinality_left '--' cardinality_right space* relation_right (ws* '{' ws* (relation_attribute ws* attribute_sep? ws*)* ws* '}')? newline { p.AddRelation() }
+relation_left <-
+    <string> { p.SetRelationLeft(text) }
+cardinality_left <-
+    <cardinality> { p.SetCardinalityLeft(text)}
+relation_right <-
+    <string> { p.SetRelationRight(text) }
+cardinality_right <-
+    <cardinality> { p.SetCardinalityRight(text)}
+
+title_attribute <-
+    attribute_key space* ':' space* attribute_value { p.AddTitleKeyValue() }
+table_attribute <-
+    attribute_key space* ':' space* attribute_value { p.AddTableKeyValue() }
+column_attribute <-
+    attribute_key space* ':' space* attribute_value { p.AddColumnKeyValue() }
+relation_attribute <-
+    attribute_key space* ':' space* attribute_value { p.AddRelationKeyValue() }
+
+attribute_key <-
+    <string> { p.SetKey(text) }
+attribute_value <- bare_value / quoted_value
+
+bare_value <-
+    <string> { p.SetValue(text) }
+quoted_value <-
+    < '"' string_in_quote '"' > { p.SetValue(text) }
+
+attribute_sep <-
+    space* ',' space*
+
+comment_string <- (![\r\n] .)*
+ws <- [ \t\r\n]+
+newline <- [\r\n]
+space <- [ \t]+
+string <- (!["\t\r\n/:,\[\]{} ].)+
+string_in_quote <- (!["\t\r\n].)+
+cardinality <- [01*]

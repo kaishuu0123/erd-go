@@ -1,0 +1,23 @@
+{{- define "dot" -}}
+graph {
+    graph [
+        {{- if .Title.TitleAttributes.label -}}
+        label=<<FONT POINT-SIZE="20">{{.Title.TitleAttributes.label}}</FONT>>,
+        labeljust=l,
+        labelloc=t,
+        {{- end -}}
+        rankdir=LR
+    ];
+    node [
+        label="\N",
+        shape=plaintext
+    ];
+    edge [
+        color=gray50,
+        minlen=2,
+        style=dashed
+    ];
+    {{template "dot_relations" .}}
+    {{template "dot_tables" .}}
+}
+{{end}}

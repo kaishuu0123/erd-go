@@ -1,0 +1,4 @@
+*.dot
+*.png
+vendor/**/*
+erd-go

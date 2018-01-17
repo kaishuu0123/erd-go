@@ -1,0 +1,23 @@
+{{define "dot_relations"}}
+{{range .Relations}}
+  {{.LeftTableName}} -- {{.RightTableName}} [
+    {{- if (eq .LeftCardinality "*") -}}
+    headlabel=<<FONT>0..N</FONT>>,
+    {{- else if (eq .LeftCardinality "+")}}
+    headlabel=<<FONT>1..N</FONT>>,
+    {{- else -}}
+    headlabel=<<FONT>{{.LeftCardinality}}</FONT>>,
+    {{- end -}}
+    {{- if .RelationAttributes.label -}}
+    label=<<FONT>{{.RelationAttributes.label}}</FONT>>,
+    {{- end -}}
+    {{- if (eq .RightCardinality "*") -}}
+    taillabel=<<FONT>0..N</FONT>>,
+    {{- else if (eq .RightCardinality "+")}}
+    taillabel=<<FONT>1..N</FONT>>,
+    {{- else -}}
+    taillabel=<<FONT>{{.RightCardinality}}</FONT>>
+    {{- end -}}
+  ];
+{{- end -}}
+{{- end -}}
