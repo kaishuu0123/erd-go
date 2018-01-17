@@ -1,0 +1,66 @@
+graph {
+    graph [
+        label=<<FONT POINT-SIZE="20"><no value></FONT>>,
+        labeljust=l,
+        labelloc=t,
+        rankdir=LR
+    ];
+    node [
+        label="\N",
+        shape=plaintext
+    ];
+    edge [
+        color=gray50,
+        minlen=2,
+        style=dashed
+    ];
+    
+
+  Person -- Location [headlabel=<<FONT>0..N</FONT>>,taillabel=<<FONT>1</FONT>>];
+    
+
+  Location [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">Location</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*id</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>city</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>state</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>country</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+  Person [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">Person</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*name</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>height</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>weight</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>+birth_location_id</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+}

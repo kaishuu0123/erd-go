@@ -1,4 +1,4 @@
-*.dot
-*.png
+/*.dot
+/*.png
 vendor/**/*
 erd-go

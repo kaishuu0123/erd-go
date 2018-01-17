@@ -1,0 +1,240 @@
+graph {
+    graph [
+        label=<<FONT POINT-SIZE="20">nfldb Entity-Relationship diagram (condensed)</FONT>>,
+        labeljust=l,
+        labelloc=t,
+        rankdir=LR
+    ];
+    node [
+        label="\N",
+        shape=plaintext
+    ];
+    edge [
+        color=gray50,
+        minlen=2,
+        style=dashed
+    ];
+    
+
+  player -- team [headlabel=<<FONT>0..N</FONT>>,taillabel=<<FONT>1</FONT>>];
+  game -- team [headlabel=<<FONT>0..N</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>1</FONT>>];
+  game -- team [headlabel=<<FONT>0..N</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>1</FONT>>];
+  drive -- team [headlabel=<<FONT>0..N</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>1</FONT>>];
+  play -- team [headlabel=<<FONT>0..N</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>1</FONT>>];
+  play_player -- team [headlabel=<<FONT>0..N</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>1</FONT>>];
+  game -- drive [headlabel=<<FONT>1</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>0..N</FONT>>,];
+  game -- play [headlabel=<<FONT>1</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>0..N</FONT>>,];
+  game -- play_player [headlabel=<<FONT>1</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>0..N</FONT>>,];
+  drive -- play [headlabel=<<FONT>1</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>0..N</FONT>>,];
+  drive -- play_player [headlabel=<<FONT>1</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>0..N</FONT>>,];
+  play -- play_player [headlabel=<<FONT>1</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>0..N</FONT>>,];
+  player -- play_player [headlabel=<<FONT>1</FONT>>,label=<<FONT>away</FONT>>,taillabel=<<FONT>0..N</FONT>>,];
+    
+
+  drive [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0"
+      BGCOLOR="#ececfc">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">drive</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*+gsis_id</FONT><FONT> [gameid, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*drive_id</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>start_field</FONT><FONT> [field_pos, null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>start_time</FONT><FONT> [game_time, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>end_field</FONT><FONT> [field_pos, null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>end_time</FONT><FONT> [game_time, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>pos_team</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>pos_time</FONT><FONT> [pos_period, null]</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+  game [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0"
+      BGCOLOR="#ececfc">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">game</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*gsis_id</FONT><FONT> [gameid, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>start_time</FONT><FONT> [utctime, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>week</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>season_year</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>season_type</FONT><FONT> [season_phase, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>finished</FONT><FONT> [boolean, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>home_team</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>home_score</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>away_team</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>away_score</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+  meta [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0"
+      BGCOLOR="#fcecec">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">meta</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>version</FONT><FONT> [smallint, null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>season_type</FONT><FONT> [season_phase, null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>season_year</FONT><FONT> [usmallint, null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>week</FONT><FONT> [usmallint, null]</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+  play [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0"
+      BGCOLOR="#ececfc">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">play</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*+gsis_id</FONT><FONT> [gameid, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*+drive_id</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*play_id</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>time</FONT><FONT> [game_time, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>pos_team</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>yardline</FONT><FONT> [field_pos, null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>down</FONT><FONT> [smallint, null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>yards_to_go</FONT><FONT> [smallint, null]</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+  play_player [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0"
+      BGCOLOR="#ececfc">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">play_player</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*+gsis_id</FONT><FONT> [gameid, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*+drive_id</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*+play_id</FONT><FONT> [usmallint, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*+player_id</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>team</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+  player [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0"
+      BGCOLOR="#d0e0d0">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">player</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*player_id</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>full_name</FONT><FONT> [varchar, null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>team</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>position</FONT><FONT> [player_pos, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>status</FONT><FONT> [player_status, not null]</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+  team [label=<<FONT FACE="Helvetica">
+    <TABLE
+      BORDER="0" CELLBORDER="1"
+      CELLPADDING="4"
+      CELLSPACING="0"
+      BGCOLOR="#d0e0d0">
+      <TR>
+        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold">team</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>*team_id</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>city</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+      <TR>
+        <TD ALIGN="LEFT"><FONT>name</FONT><FONT> [varchar, not null]</FONT></TD>
+      </TR>
+    </TABLE>
+  </FONT>>];
+}
