@@ -10,7 +10,7 @@ Translates a plain text description of a relational database schema to a graphic
 go get github.com/kaishuu0123/erd-go
 ```
 
-or get binary.
+or get binary. (not yet)
 
 ## Usage
 
@@ -26,7 +26,7 @@ Help Options:
   -h, --help    Show this help message
 ```
 
-support input from stdin.
+support input from STDIN.
 
 ```
 cat examples/nfldb.er | erd-go
@@ -45,17 +45,17 @@ see [examples directory](https://github.com/kaishuu0123/erd-go/blob/master/examp
 ## Build Instruction
 
 1. install glide
-```
-go get github.com/Masterminds/glide
-```
+    ```
+    go get github.com/Masterminds/glide
+    ```
 1. install go-bindata
-```
-go get github.com/jteeuwen/go-bindata
-```
+    ```
+    go get github.com/jteeuwen/go-bindata
+    ```
 1. make
-```
-make
-```
+    ```
+    make
+    ```
 
 ## LICENSE
 
