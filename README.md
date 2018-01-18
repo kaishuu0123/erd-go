@@ -1,6 +1,7 @@
 # erd-go
 
 [![Build Status](https://travis-ci.org/kaishuu0123/erd-go.svg?branch=master)](https://travis-ci.org/kaishuu0123/erd-go)
+[![Coverage Status](https://coveralls.io/repos/github/kaishuu0123/erd-go/badge.svg)](https://coveralls.io/github/kaishuu0123/erd-go)
 
 Translates a plain text description of a relational database schema to a graphical entity-relationship diagram.(convert to dot file)
 
