@@ -33,8 +33,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	if terminal.IsTerminal(syscall.Stdin) {
-		if len(args) == 0 {
+	if terminal.IsTerminal(int(syscall.Stdin)) {
+		if len(args) == 0 && opts.InputFile == "" {
 			optsParser.WriteHelp(os.Stdout)
 			os.Exit(1)
 		}

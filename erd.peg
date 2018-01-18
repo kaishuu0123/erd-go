@@ -12,24 +12,23 @@ EOT <- !.
 expression <-
     (title_info / relation_info / table_info / comment_line / empty_line)*
 
-empty_line <- ws { p.ClearTableAndColumn() }
-
+empty_line <- ws { p.ClearTableAndColumn() } 
 comment_line <- space* '#' comment_string newline
 
 title_info <- 'title' ws* '{' ws* (title_attribute ws* attribute_sep? ws*)* ws* '}' newline
 
 table_info <-
-    '[' table_title ']' (space* '{' ws* (table_attribute ws* attribute_sep?)* ws* '}' space*)? newline (table_column / empty_line)*
+    '[' table_title ']' (space* '{' ws* (table_attribute ws* attribute_sep?)* ws* '}' space*)? newline_or_eot (table_column / empty_line)*
 
 table_title <-
     <string> { p.AddTable(text) }
 table_column <-
-    space* column_name (space* '{' ws* (column_attribute ws* attribute_sep?)* ws* '}' space*)? newline
+    space* column_name (space* '{' ws* (column_attribute ws* attribute_sep?)* ws* '}' space*)? newline_or_eot
 column_name <-
     <string> { p.AddColumn(text) }
 
 relation_info <-
-    space* relation_left space* cardinality_left '--' cardinality_right space* relation_right (ws* '{' ws* (relation_attribute ws* attribute_sep? ws*)* ws* '}')? newline { p.AddRelation() }
+    space* relation_left space* cardinality_left '--' cardinality_right space* relation_right (ws* '{' ws* (relation_attribute ws* attribute_sep? ws*)* ws* '}')? newline_or_eot { p.AddRelation() }
 relation_left <-
     <string> { p.SetRelationLeft(text) }
 cardinality_left <-
@@ -63,6 +62,7 @@ attribute_sep <-
 comment_string <- (![\r\n] .)*
 ws <- [ \t\r\n]+
 newline <- [\r\n]
+newline_or_eot <- newline / EOT
 space <- [ \t]+
 string <- (!["\t\r\n/:,\[\]{} ].)+
 string_in_quote <- (!["\t\r\n].)+

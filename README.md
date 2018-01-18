@@ -54,6 +54,10 @@ see [examples directory](https://github.com/kaishuu0123/erd-go/blob/master/examp
     ```
     go get github.com/jteeuwen/go-bindata
     ```
+1. install peg
+    ```
+    go get github.com/pointlander/peg
+    ```
 1. make
     ```
     make

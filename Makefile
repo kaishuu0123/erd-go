@@ -1,11 +1,13 @@
 all: build
 
-build: depend bindata
+build: depend peg bindata
 	go build
 
-run: depend
+peg:
 	peg erd.peg
-	cat examples/nfldb.er | go run *.go -o nfldb.dot
+
+run: build
+	cat examples/nfldb.er | ./erd-go -o nfldb.dot
 
 depend:
 	glide install
