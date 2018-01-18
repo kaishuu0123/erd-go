@@ -61,7 +61,7 @@ attribute_sep <-
 
 comment_string <- (![\r\n] .)*
 ws <- [ \t\r\n]+
-newline <- [\r\n]
+newline <- '\r\n' / '\n' / '\r'
 newline_or_eot <- newline / EOT
 space <- [ \t]+
 string <- (!["\t\r\n/:,\[\]{} ].)+
