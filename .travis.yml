@@ -18,6 +18,7 @@ after_success:
   - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
 deploy:
   provider: script
+  skip-cleanup: true
   script: ghr --username kaishuu0123 --token $GITHUB_TOKEN --replace --debug $(git tag -l --contains HEAD) dist/
   on:
     tags: true
