@@ -9,11 +9,13 @@ Translates a plain text description of a relational database schema to a graphic
 
 ## Install
 
+get binary from [releases page](https://github.com/kaishuu0123/erd-go/releases).
+
+or 
+
 ```
 go get github.com/kaishuu0123/erd-go
 ```
-
-or get binary. (not yet)
 
 ## Usage
 
