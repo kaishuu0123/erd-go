@@ -3,3 +3,5 @@
 vendor/**/*
 erd-go
 *.swp
+dist/**/*
+coverage.out
