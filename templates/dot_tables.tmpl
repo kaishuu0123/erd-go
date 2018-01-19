@@ -1,27 +1,39 @@
 {{define "dot_tables"}}
 {{range $tk, $t := .Tables}}
-  {{.Title}} [label=<<FONT FACE="Helvetica">
-    <TABLE
-      BORDER="0" CELLBORDER="1"
-      CELLPADDING="4"
-      CELLSPACING="0"
-      {{- if .TableAttributes.bgcolor}}
-      BGCOLOR="{{.TableAttributes.bgcolor}}"
-      {{- end -}}
+  {{.Title}} [label=<<TABLE
+      BORDER="0"
+      CELLPADDING="0"
+      CELLSPACING="0.5"
+      WIDTH="134"
+      ALIGN="CENTER"
       >
       <TR>
-        <TD><FONT POINT-SIZE="16" FACE="Helvetica bold"><B>{{.Title}}</B></FONT></TD>
+        <TD ALIGN="CENTER" VALIGN="BOTTOM" WIDTH="134"><FONT POINT-SIZE="14" FACE="Helvetica bold"><B>{{.Title}}</B></FONT></TD>
       </TR>
+    </TABLE>
+    {{- if .Columns -}}
+    |
+    <TABLE
+      BORDER="0"
+      ALIGN="LEFT"
+      CELLPADDING="0"
+      CELLSPACING="4"
+      WIDTH="134">
       {{- range $k, $c := .Columns}}
       <TR>
-        <TD ALIGN="LEFT"><FONT>{{.Title}}</FONT>
+        <TD ALIGN="LEFT"><FONT POINT-SIZE="12">{{.Title}}</FONT>
         {{- if .ColumnAttributes.label -}}
-          <FONT> [{{.ColumnAttributes.label}}]</FONT>
+          <FONT FACE="Arial Italic" POINT-SIZE="10" COLOR="grey60"> [{{.ColumnAttributes.label}}]</FONT>
         {{- end -}}
         </TD>
       </TR>
       {{- end}}
     </TABLE>
-  </FONT>>];
+    {{- end -}}>
+    {{- if .TableAttributes.bgcolor}}
+    ,fillcolor="{{.TableAttributes.bgcolor}}",
+    style=filled
+    {{- end -}}
+    ];
 {{- end -}}
 {{- end -}}

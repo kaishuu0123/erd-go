@@ -6,16 +6,28 @@ graph {
         labeljust=l,
         labelloc=t,
         {{- end -}}
+        nodesep=0.5,
+        ranksep=0.5,
+        pad="0.2,0.2",
+        margin="0.0",
+        cencentrate=true,
+        splines="spline",
         rankdir=LR
     ];
     node [
         label="\N",
-        shape=plaintext
+        fontsize=14,
+        margin="0.07,0.05",
+        penwidth=1.0,
+        shape=Mrecord
     ];
     edge [
-        color=gray50,
-        minlen=2,
-        style=dashed
+        dir=both,
+        fontsize=12,
+        arrowsize=0.9,
+        penwidth=1.0,
+        labelangle=32,
+        labeldistance=1.8
     ];
     {{template "dot_relations" .}}
     {{template "dot_tables" .}}
