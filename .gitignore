@@ -5,3 +5,4 @@ erd-go
 *.swp
 dist/**/*
 coverage.out
+.DS_Store
