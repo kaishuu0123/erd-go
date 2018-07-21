@@ -13,6 +13,7 @@ import (
 )
 
 type Options struct {
+	OutFormat  string `short:"f" long:"fmt" description:"output format (dot only)"`
 	InputFile  string `short:"i" long:"input" description:"input will be read from the given file."`
 	OutputFile string `short:"o" long:"output" description:"output will be written to the given file."`
 }
