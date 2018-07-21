@@ -1,5 +1,8 @@
 all: build
 
+build_no_peg: depend bindata
+	go build
+
 build: depend peg bindata
 	go build
 
