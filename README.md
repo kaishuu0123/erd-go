@@ -17,6 +17,13 @@ or
 go get github.com/kaishuu0123/erd-go
 ```
 
+or (for Mac)
+
+```
+brew tap kaishuu0123/erd-go
+brew install erd-go
+```
+
 ## Usage
 
 ```
