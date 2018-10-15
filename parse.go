@@ -120,6 +120,7 @@ func (e *Erd) SetValue(text string) {
 
 func (e *Erd) AddRelation() {
 	e.Relations = append(e.Relations, e.CurrentRelation)
+	e.CurrentRelation = Relation{}
 }
 
 func (e *Erd) AddRelationKeyValue() {
