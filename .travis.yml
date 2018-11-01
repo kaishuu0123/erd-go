@@ -13,7 +13,7 @@ before_install:
   - glide install
 script:
   - go test -v -covermode=count -coverprofile=coverage.out ./...
-  - goveralls -coverprofile=coverage.out -service travis-ci -repotoken $COVERALLS_TOKEN
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then goveralls -coverprofile=coverage.out -service travis-ci -repotoken ${COVERALLS_TOKEN}; fi'
 after_success:
   - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
 deploy:
