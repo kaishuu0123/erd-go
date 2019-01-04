@@ -71,7 +71,7 @@ game        *--1 team {label: "home"}
 game        *--1 team {label: "away"}
 drive       *--1 team
 play        *--1 team
-play_player *--1 team
+play_player +--1 team
 
 game        1--* drive
 game        1--* play
