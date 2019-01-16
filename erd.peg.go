@@ -4,7 +4,9 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"math"
+	"os"
 	"sort"
 	"strconv"
 )
@@ -136,19 +138,19 @@ type node32 struct {
 	up, next *node32
 }
 
-func (node *node32) print(pretty bool, buffer string) {
+func (node *node32) print(w io.Writer, pretty bool, buffer string) {
 	var print func(node *node32, depth int)
 	print = func(node *node32, depth int) {
 		for node != nil {
 			for c := 0; c < depth; c++ {
-				fmt.Printf(" ")
+				fmt.Fprintf(w, " ")
 			}
 			rule := rul3s[node.pegRule]
 			quote := strconv.Quote(string(([]rune(buffer)[node.begin:node.end])))
 			if !pretty {
-				fmt.Printf("%v %v\n", rule, quote)
+				fmt.Fprintf(w, "%v %v\n", rule, quote)
 			} else {
-				fmt.Printf("\x1B[34m%v\x1B[m %v\n", rule, quote)
+				fmt.Fprintf(w, "\x1B[34m%v\x1B[m %v\n", rule, quote)
 			}
 			if node.up != nil {
 				print(node.up, depth+1)
@@ -159,12 +161,12 @@ func (node *node32) print(pretty bool, buffer string) {
 	print(node, 0)
 }
 
-func (node *node32) Print(buffer string) {
-	node.print(false, buffer)
+func (node *node32) Print(w io.Writer, buffer string) {
+	node.print(w, false, buffer)
 }
 
-func (node *node32) PrettyPrint(buffer string) {
-	node.print(true, buffer)
+func (node *node32) PrettyPrint(w io.Writer, buffer string) {
+	node.print(w, true, buffer)
 }
 
 type tokens32 struct {
@@ -207,11 +209,15 @@ func (t *tokens32) AST() *node32 {
 }
 
 func (t *tokens32) PrintSyntaxTree(buffer string) {
-	t.AST().Print(buffer)
+	t.AST().Print(os.Stdout, buffer)
+}
+
+func (t *tokens32) WriteSyntaxTree(w io.Writer, buffer string) {
+	t.AST().Print(w, buffer)
 }
 
 func (t *tokens32) PrettyPrintSyntaxTree(buffer string) {
-	t.AST().PrettyPrint(buffer)
+	t.AST().PrettyPrint(os.Stdout, buffer)
 }
 
 func (t *tokens32) Add(rule pegRule, begin, end, index uint32) {
@@ -317,6 +323,10 @@ func (p *Parser) PrintSyntaxTree() {
 	} else {
 		p.tokens32.PrintSyntaxTree(p.Buffer)
 	}
+}
+
+func (p *Parser) WriteSyntaxTree(w io.Writer) {
+	p.tokens32.WriteSyntaxTree(w, p.Buffer)
 }
 
 func (p *Parser) Execute() {
@@ -2109,7 +2119,7 @@ func (p *Parser) Init() {
 			position, tokenIndex = position238, tokenIndex238
 			return false
 		},
-		/* 31 cardinality <- <('0' / '1' / '*')> */
+		/* 31 cardinality <- <('0' / '1' / '*' / '+')> */
 		func() bool {
 			position252, tokenIndex252 := position, tokenIndex
 			{
@@ -2131,6 +2141,13 @@ func (p *Parser) Init() {
 				l256:
 					position, tokenIndex = position254, tokenIndex254
 					if buffer[position] != rune('*') {
+						goto l257
+					}
+					position++
+					goto l254
+				l257:
+					position, tokenIndex = position254, tokenIndex254
+					if buffer[position] != rune('+') {
 						goto l252
 					}
 					position++

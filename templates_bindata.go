@@ -85,7 +85,7 @@ func templatesDotTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/dot.tmpl", size: 752, mode: os.FileMode(420), modTime: time.Unix(1531274133, 0)}
+	info := bindataFileInfo{name: "templates/dot.tmpl", size: 752, mode: os.FileMode(420), modTime: time.Unix(1546592531, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -105,7 +105,7 @@ func templatesDot_relationsTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/dot_relations.tmpl", size: 821, mode: os.FileMode(420), modTime: time.Unix(1531274133, 0)}
+	info := bindataFileInfo{name: "templates/dot_relations.tmpl", size: 821, mode: os.FileMode(420), modTime: time.Unix(1546592531, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -125,7 +125,7 @@ func templatesDot_tablesTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "templates/dot_tables.tmpl", size: 1001, mode: os.FileMode(420), modTime: time.Unix(1532157311, 0)}
+	info := bindataFileInfo{name: "templates/dot_tables.tmpl", size: 1001, mode: os.FileMode(420), modTime: time.Unix(1546592531, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
