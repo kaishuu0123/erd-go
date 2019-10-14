@@ -1,0 +1,12 @@
+github.com/jessevdk/go-flags v1.3.0 h1:QmKsgik/Z5fJ11ZtlcA8F+XW9dNybBNFQ1rngF3MmdU=
+github.com/jessevdk/go-flags v1.3.0/go.mod h1:4FA24M0QyGHXBuZZK/XkWh8h0e1EYbRYJSGM75WSRxI=
+github.com/pointlander/compress v1.1.0 h1:5fUcQV2qEHvk0OpILH6eltwluN5VnwiYrkc1wjGUHnU=
+github.com/pointlander/compress v1.1.0/go.mod h1:q5NXNGzqj5uPnVuhGkZfmgHqNUhf15VLi6L9kW0VEc0=
+github.com/pointlander/jetset v1.0.0 h1:bNlaNAX7cDPID9SlcogmXlDWq0KcRJSpKwHXaAM3bGQ=
+github.com/pointlander/jetset v1.0.0/go.mod h1:zY6+WHRPB10uzTajloHtybSicLW1bf6Rz0eSaU9Deng=
+github.com/pointlander/peg v1.0.0 h1:rtCtA6Fu6xJpILX8WJfU+cvrcKmXgTfG/v+bkLP8NYY=
+github.com/pointlander/peg v1.0.0/go.mod h1:WJTMcgeWYr6fZz4CwHnY1oWZCXew8GWCF93FaAxPrh4=
+golang.org/x/crypto v0.0.0-20170202201058-bed12803fa96 h1:wszq1jlNwkJcdZ05G3gpSdgYKTHwHCorxTZTG88nXN4=
+golang.org/x/crypto v0.0.0-20170202201058-bed12803fa96/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
+golang.org/x/sys v0.0.0-20170201051245-7a6e5648d140 h1:wxED/WNVMni7c0XHQ2hO7hXtwxskOTX5+iGd53LdZO0=
+golang.org/x/sys v0.0.0-20170201051245-7a6e5648d140/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
