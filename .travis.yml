@@ -12,7 +12,7 @@ before_install:
   - go mod download
 script:
   - go test -v -covermode=count -coverprofile=coverage.out ./...
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then goveralls -coverprofile=coverage.out -service travis-ci -repotoken ${COVERALLS_TOKEN}; fi'
+  # - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then goveralls -coverprofile=coverage.out -service travis-ci -repotoken ${COVERALLS_TOKEN}; fi'
 after_success:
   - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
 deploy:
