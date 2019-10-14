@@ -4,7 +4,7 @@ build_no_peg: depend bindata
 	go build
 
 build: depend peg bindata
-	go build
+	go build -mod=readonly
 
 peg:
 	peg erd.peg

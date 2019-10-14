@@ -9,7 +9,7 @@ before_install:
   - go get github.com/axw/gocov/gocov
   - go get github.com/mattn/goveralls
   - go get github.com/jteeuwen/go-bindata
-  - glide install
+  - go mod download
 script:
   - go test -v -covermode=count -coverprofile=coverage.out ./...
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then goveralls -coverprofile=coverage.out -service travis-ci -repotoken ${COVERALLS_TOKEN}; fi'
