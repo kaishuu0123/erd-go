@@ -10,10 +10,14 @@ root <- expression EOT /
 EOT <- !.
 
 expression <-
-    (title_info / relation_info / table_info / comment_line / empty_line)*
+    (title_info / color_info / relation_info / table_info / comment_line / empty_line)*
 
-empty_line <- ws { p.ClearTableAndColumn() } 
+empty_line <- ws { p.ClearTableAndColumn() }
 comment_line <- space* '#' comment_string newline
+
+color_info <- 'colors' ws* '{' ws* (color_key_value ws* attribute_sep? ws*)* ws* '}' newline
+color_key_value <-
+    attribute_key space* ':' space* attribute_value { p.AddColorDefine() }
 
 title_info <- 'title' ws* '{' ws* (title_attribute ws* attribute_sep? ws*)* ws* '}' newline
 

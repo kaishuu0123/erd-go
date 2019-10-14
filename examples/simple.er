@@ -1,13 +1,22 @@
 # Entities are declared in '[' ... ']'. All attributes after the entity header
 # up until the end of the file (or the next entity declaration) correspond
 # to this entity.
-[Person]
+
+# red #fcecec
+# blue #ececfc
+
+colors {
+    person: "#fcecec",
+    loc: "#ececfc",
+}
+
+[Person] {bgcolor: "person"}
 *name
 height
 weight
 +birth_location_id
 
-[Location]
+[Location] {bgcolor: "loc"}
 *id
 city
 state

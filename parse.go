@@ -48,6 +48,7 @@ type Erd struct {
 	value            string
 	CurrentTableName string
 	IsError          bool
+	Colors           map[string]string
 	line             int
 }
 
@@ -80,7 +81,22 @@ func (e *Erd) AddTableKeyValue() {
 	if table.TableAttributes == nil {
 		table.TableAttributes = map[string]string{}
 	}
-	table.TableAttributes[e.key] = e.value
+
+	val := e.value
+	if strings.Contains(e.key, "color") {
+		v, ok := e.Colors[e.value]
+		if ok {
+			val = v
+		}
+	}
+	table.TableAttributes[e.key] = val
+}
+
+func (e *Erd) AddColorDefine() {
+	if e.Colors == nil {
+		e.Colors = map[string]string{}
+	}
+	e.Colors[e.key] = e.value
 }
 
 func (e *Erd) AddColumn(text string) {
