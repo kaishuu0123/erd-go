@@ -1,6 +1,6 @@
 language: go
 go:
-  - 1.9
+  - "1.13"
 env:
   - "PATH=/home/travis/gopath/bin:$PATH"
 before_install:
@@ -8,7 +8,6 @@ before_install:
   - go get github.com/tcnksm/ghr
   - go get github.com/axw/gocov/gocov
   - go get github.com/mattn/goveralls
-  - go get github.com/Masterminds/glide
   - go get github.com/jteeuwen/go-bindata
   - glide install
 script:
@@ -19,6 +18,6 @@ after_success:
 deploy:
   provider: script
   skip-cleanup: true
-  script: ghr --username kaishuu0123 --token $GITHUB_TOKEN --replace --debug $(git tag -l --contains HEAD) dist/
+  script: ghr --username ray-g --token $GITHUB_TOKEN --replace --debug $(git tag -l --contains HEAD) dist/
   on:
     tags: true
