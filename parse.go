@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// Relation between two tables
 type Relation struct {
 	LeftTableName      string
 	LeftCardinality    string
@@ -15,30 +16,35 @@ type Relation struct {
 	RelationAttributes map[string]string
 }
 
+// Index on a column
 type Index struct {
 	Title    string
 	Columns  []string
 	IsUnique bool
 }
 
+// Column in a table
 type Column struct {
 	Title            string
 	ColumnAttributes map[string]string
 }
 
+// Table in a database
 type Table struct {
 	Title           string
 	TableAttributes map[string]string
 	Columns         []Column
-	CurrentColumnId int
+	CurrentColumnID int
 	PrimaryKeys     []int
 }
 
+// Title ...
 type Title struct {
 	Title           string
 	TitleAttributes map[string]string
 }
 
+// Erd of the database
 type Erd struct {
 	Title            Title
 	Tables           map[string]*Table
@@ -56,10 +62,12 @@ func (e *Erd) addTableTitle(t string) {
 	e.Tables[e.CurrentTableName].Title = t
 }
 
+// ClearTableAndColumn clears the current table
 func (e *Erd) ClearTableAndColumn() {
 	e.CurrentTableName = ""
 }
 
+// AddTitleKeyValue adds the key value pair to the title attributes
 func (e *Erd) AddTitleKeyValue() {
 	if e.Title.TitleAttributes == nil {
 		e.Title.TitleAttributes = map[string]string{}
@@ -67,6 +75,7 @@ func (e *Erd) AddTitleKeyValue() {
 	e.Title.TitleAttributes[e.key] = e.value
 }
 
+// AddTable adds a table to the EDR
 func (e *Erd) AddTable(text string) {
 	if e.Tables == nil {
 		e.Tables = map[string]*Table{}
@@ -75,6 +84,7 @@ func (e *Erd) AddTable(text string) {
 	e.CurrentTableName = text
 }
 
+// AddTableKeyValue add a key value pair to the table attributes
 func (e *Erd) AddTableKeyValue() {
 	table := e.Tables[e.CurrentTableName]
 	if table.TableAttributes == nil {
@@ -83,6 +93,7 @@ func (e *Erd) AddTableKeyValue() {
 	table.TableAttributes[e.key] = e.value
 }
 
+// AddColumn adds a column to the EDR
 func (e *Erd) AddColumn(text string) {
 	if e.CurrentTableName == "" {
 		e.Error(errors.New("Invalid State"))
@@ -90,12 +101,13 @@ func (e *Erd) AddColumn(text string) {
 
 	table := e.Tables[e.CurrentTableName]
 	table.Columns = append(table.Columns, Column{Title: text, ColumnAttributes: map[string]string{}})
-	table.CurrentColumnId = len(table.Columns) - 1
+	table.CurrentColumnID = len(table.Columns) - 1
 }
 
+// AddColumnKeyValue adds a key value pair to the column attributes
 func (e *Erd) AddColumnKeyValue() {
 	table := e.Tables[e.CurrentTableName]
-	column := table.Columns[table.CurrentColumnId]
+	column := table.Columns[table.CurrentColumnID]
 	if column.ColumnAttributes == nil {
 		column.ColumnAttributes = map[string]string{}
 	}
@@ -104,6 +116,7 @@ func (e *Erd) AddColumnKeyValue() {
 	e.value = ""
 }
 
+// SetKey sets the current key
 func (e *Erd) SetKey(text string) {
 	e.key = text
 	if len(e.key) > 0 && e.key[0] == '"' {
@@ -111,6 +124,7 @@ func (e *Erd) SetKey(text string) {
 	}
 }
 
+// SetValue sets the current value
 func (e *Erd) SetValue(text string) {
 	e.value = text
 	if len(e.value) > 0 && e.value[0] == '"' {
@@ -118,11 +132,13 @@ func (e *Erd) SetValue(text string) {
 	}
 }
 
+// AddRelation adds the current relation to the EDR
 func (e *Erd) AddRelation() {
 	e.Relations = append(e.Relations, e.CurrentRelation)
 	e.CurrentRelation = Relation{}
 }
 
+// AddRelationKeyValue adds a key value pair to the current relation attributes
 func (e *Erd) AddRelationKeyValue() {
 	if e.CurrentRelation.RelationAttributes == nil {
 		e.CurrentRelation.RelationAttributes = map[string]string{}
@@ -130,18 +146,22 @@ func (e *Erd) AddRelationKeyValue() {
 	e.CurrentRelation.RelationAttributes[e.key] = e.value
 }
 
+// SetRelationLeft sets the left side of the current relation
 func (e *Erd) SetRelationLeft(text string) {
 	e.CurrentRelation.LeftTableName = text
 }
 
+// SetCardinalityLeft sets the left cardinality of the current relation
 func (e *Erd) SetCardinalityLeft(text string) {
 	e.CurrentRelation.LeftCardinality = text
 }
 
+// SetRelationRight sets the right side of the current relation
 func (e *Erd) SetRelationRight(text string) {
 	e.CurrentRelation.RightTableName = text
 }
 
+// SetCardinalityRight sets the right cardinality of the current relation
 func (e *Erd) SetCardinalityRight(text string) {
 	e.CurrentRelation.RightCardinality = text
 }
@@ -158,7 +178,8 @@ func (e *Erd) Error(err error) {
 	panic(err)
 }
 
-func (c *Erd) Err(pos int, buffer string) {
+// Err prints an error
+func (e *Erd) Err(pos int, buffer string) {
 	fmt.Println("")
 	a := strings.Split(buffer[:pos], "\n")
 	row := len(a) - 1
@@ -184,5 +205,5 @@ func (c *Erd) Err(pos int, buffer string) {
 	fmt.Println(s)
 
 	fmt.Println("error")
-	c.IsError = true
+	e.IsError = true
 }
