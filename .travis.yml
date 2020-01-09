@@ -11,7 +11,7 @@ env:
 before_install:
   - go get github.com/mitchellh/gox
   - go get github.com/mattn/goveralls
-  
+
 script:
   - go test -v -covermode=count -coverprofile=coverage.out ./...
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then goveralls -coverprofile=coverage.out -service travis-ci -repotoken ${COVERALLS_TOKEN}; fi'
@@ -31,3 +31,4 @@ deploy:
   overwrite: true
   on:
     tags: true
+    condition: $TRAVIS_GO_VERSION =~ ^1\.13
