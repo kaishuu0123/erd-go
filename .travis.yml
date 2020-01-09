@@ -1,24 +1,33 @@
 language: go
+
 go:
-  - 1.9
+  - 1.11.x
+  - 1.12.x
+  - 1.13.x
+
 env:
-  - "PATH=/home/travis/gopath/bin:$PATH"
+  - GO111MODULE=on
+
 before_install:
   - go get github.com/mitchellh/gox
-  - go get github.com/tcnksm/ghr
-  - go get github.com/axw/gocov/gocov
   - go get github.com/mattn/goveralls
-  - go get github.com/Masterminds/glide
-  - go get github.com/jteeuwen/go-bindata
-  - glide install
+  
 script:
   - go test -v -covermode=count -coverprofile=coverage.out ./...
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then goveralls -coverprofile=coverage.out -service travis-ci -repotoken ${COVERALLS_TOKEN}; fi'
+
 after_success:
-  - gox -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
+  - gox -osarch="darwin/amd64" -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
+  - gox -osarch="linux/amd64" -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
+  - gox -osarch="windows/amd64" -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
+  - gox -osarch="linux/arm" -output "dist/{{.OS}}_{{.Arch}}_{{.Dir}}"
+
 deploy:
-  provider: script
-  skip-cleanup: true
-  script: ghr --username kaishuu0123 --token $GITHUB_TOKEN --replace --debug $(git tag -l --contains HEAD) dist/
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file_glob: true
+  file: dist/*
+  skip_cleanup: true
+  overwrite: true
   on:
     tags: true
