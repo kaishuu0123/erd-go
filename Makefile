@@ -13,7 +13,7 @@ run: build
 	cat examples/nfldb.er | ./erd-go -o nfldb.dot
 
 depend:
-	glide install
+	go mod download
 
 bindata:
 	go-bindata -o=templates_bindata.go ./templates/...
