@@ -1,7 +1,12 @@
 # erd-go
 
+[![GitHub release](https://img.shields.io/github/release/kaishuu0123/erd-go.svg)][releases]
 [![Build Status](https://travis-ci.org/kaishuu0123/erd-go.svg?branch=master)](https://travis-ci.org/kaishuu0123/erd-go)
 [![Coverage Status](https://coveralls.io/repos/github/kaishuu0123/erd-go/badge.svg)](https://coveralls.io/github/kaishuu0123/erd-go)
+[![Docker Pulls](https://img.shields.io/docker/pulls/kaishuu0123/erd-go.svg)][docker]
+
+[releases]: https://github.com/kaishuu0123/erd-go/releases
+[docker]: https://hub.docker.com/r/kaishuu0123/erd-go/
 
 Translates a plain text description of a relational database schema to a graphical entity-relationship diagram.(convert to dot file)
 
@@ -11,7 +16,7 @@ Translates a plain text description of a relational database schema to a graphic
 
 get binary from [releases page](https://github.com/kaishuu0123/erd-go/releases).
 
-or 
+or
 
 ```
 go get github.com/kaishuu0123/erd-go
@@ -48,6 +53,12 @@ ex.) convert to png from dot (use dot command)
 
 ```
 cat examples/nfldb.er | erd-go | dot -Tpng -o nfldb.png
+```
+
+## Usage (Used by Docker container)
+
+```
+cat examples/nfldb.er | docker run --rm -i kaishuu0123/erd-go | docker run --rm -i risaacson/graphviz dot -T png > nfldb.png
 ```
 
 ## Example
