@@ -10,7 +10,7 @@
 
 Translates a plain text description of a relational database schema to a graphical entity-relationship diagram.(convert to dot file)
 
-![ER diagram for nfldb](https://github.com/kaishuu0123/erd-go/blob/master/examples/outputs/nfldb.png)
+![ER diagram for nfldb](https://raw.githubusercontent.com/kaishuu0123/erd-go/master/examples/outputs/nfldb.png)
 
 ## Install
 
