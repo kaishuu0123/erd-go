@@ -1,5 +1,17 @@
 # erd-go
 
+This is forked from <https://github.com/kaishuu0123/erd-go> and added following:
+
+1. Support `?` as `{0,1}` in relations
+1. Added `colors` segment to manage color palette see: [simple example](https://github.com/ray-g/erd-go/blob/master/examples/simple.er#L8-L23)
+1. Changed to use <github.com/kevinburke/go-bindata> since the original `bin-data` is not maintained
+
+install this `go-bindata` by `go get -u -v github.com/kevinburke/go-bindata/...` 
+
+Get binary from this [releases page](https://github.com/ray-g/erd-go/releases).
+
+## ===
+
 [![Build Status](https://travis-ci.org/kaishuu0123/erd-go.svg?branch=master)](https://travis-ci.org/kaishuu0123/erd-go)
 [![Coverage Status](https://coveralls.io/repos/github/kaishuu0123/erd-go/badge.svg)](https://coveralls.io/github/kaishuu0123/erd-go)
 
