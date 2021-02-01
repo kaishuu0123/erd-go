@@ -70,4 +70,4 @@ newline_or_eot <- newline / EOT
 space <- [ \t]+
 string <- (!["\t\r\n/:,\[\]{} ].)+
 string_in_quote <- (!["\t\r\n].)+
-cardinality <- [01*+]
+cardinality <- [01?*+]
