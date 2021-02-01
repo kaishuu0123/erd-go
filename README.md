@@ -8,7 +8,7 @@ This is forked from <https://github.com/kaishuu0123/erd-go> and added following:
 
 install this `go-bindata` by `go get -u -v github.com/kevinburke/go-bindata/...` 
 
-Get binary from this [releases page](https://github.com/ray-g/erd-go/releases).
+Get binary from this [releases page](https://github.com/ray-g/erd-go/releases).  [![Build Status](https://travis-ci.org/ray-g/erd-go.svg?branch=master)](https://travis-ci.org/ray-g/erd-go)
 
 ## ===
 
