@@ -10,7 +10,7 @@ colors {
     loc: "#ececfc",
 }
 
-[Person] {bgcolor: "person"}
+[User.Person] {bgcolor: "person" label: "comment"}
 *name
 height
 weight
@@ -31,4 +31,4 @@ country
 # exactly 1      1
 # 0 or more      *
 # 1 or more      +
-Person *--1 Location
+User.Person *--1 Location {label: "line"}

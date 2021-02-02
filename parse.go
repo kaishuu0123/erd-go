@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -27,6 +28,7 @@ type Column struct {
 }
 
 type Table struct {
+	Name            string
 	Title           string
 	TableAttributes map[string]string
 	Columns         []Column
@@ -52,6 +54,12 @@ type Erd struct {
 	line             int
 }
 
+var re = regexp.MustCompile("[^a-zA-Z0-9\\_]")
+
+func replaceAllIllegal(text string) string {
+	return re.ReplaceAllString(text, "_")
+}
+
 func (e *Erd) addTableTitle(t string) {
 	t = strings.Trim(t, "\"")
 	e.Tables[e.CurrentTableName].Title = t
@@ -72,7 +80,7 @@ func (e *Erd) AddTable(text string) {
 	if e.Tables == nil {
 		e.Tables = map[string]*Table{}
 	}
-	e.Tables[text] = &Table{Title: text, TableAttributes: map[string]string{}}
+	e.Tables[text] = &Table{Name: replaceAllIllegal(text), Title: text, TableAttributes: map[string]string{}}
 	e.CurrentTableName = text
 }
 
@@ -147,7 +155,7 @@ func (e *Erd) AddRelationKeyValue() {
 }
 
 func (e *Erd) SetRelationLeft(text string) {
-	e.CurrentRelation.LeftTableName = text
+	e.CurrentRelation.LeftTableName = replaceAllIllegal(text)
 }
 
 func (e *Erd) SetCardinalityLeft(text string) {
@@ -155,7 +163,7 @@ func (e *Erd) SetCardinalityLeft(text string) {
 }
 
 func (e *Erd) SetRelationRight(text string) {
-	e.CurrentRelation.RightTableName = text
+	e.CurrentRelation.RightTableName = replaceAllIllegal(text)
 }
 
 func (e *Erd) SetCardinalityRight(text string) {
