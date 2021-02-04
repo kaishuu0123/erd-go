@@ -24,4 +24,7 @@
     {{- end -}}
   ];
 {{- end -}}
+{{ if gt (len .Isolations) 1 }}
+  {{ StringsJoin .Isolations " -- "}} [style=invis]
+{{- end -}}
 {{- end -}}

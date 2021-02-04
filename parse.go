@@ -34,6 +34,7 @@ type Table struct {
 	Columns         []Column
 	CurrentColumnId int
 	PrimaryKeys     []int
+	Connected       bool
 }
 
 type Title struct {
@@ -46,6 +47,7 @@ type Erd struct {
 	Tables           map[string]*Table
 	Relations        []Relation
 	CurrentRelation  Relation
+	Isolations       []string
 	key              string
 	value            string
 	CurrentTableName string
@@ -60,9 +62,8 @@ func replaceAllIllegal(text string) string {
 	return re.ReplaceAllString(text, "_")
 }
 
-func (e *Erd) addTableTitle(t string) {
-	t = strings.Trim(t, "\"")
-	e.Tables[e.CurrentTableName].Title = t
+func (t *Table) Connect() {
+	t.Connected = true
 }
 
 func (e *Erd) ClearTableAndColumn() {
@@ -80,8 +81,9 @@ func (e *Erd) AddTable(text string) {
 	if e.Tables == nil {
 		e.Tables = map[string]*Table{}
 	}
-	e.Tables[text] = &Table{Name: replaceAllIllegal(text), Title: text, TableAttributes: map[string]string{}}
-	e.CurrentTableName = text
+	name := replaceAllIllegal(text)
+	e.Tables[name] = &Table{Name: name, Title: text, TableAttributes: map[string]string{}}
+	e.CurrentTableName = name
 }
 
 func (e *Erd) AddTableKeyValue() {
@@ -142,6 +144,12 @@ func (e *Erd) SetValue(text string) {
 	}
 }
 
+func (e *Erd) Connect(name string) {
+	if table, ok := e.Tables[name]; ok {
+		table.Connect()
+	}
+}
+
 func (e *Erd) AddRelation() {
 	e.Relations = append(e.Relations, e.CurrentRelation)
 	e.CurrentRelation = Relation{}
@@ -155,7 +163,9 @@ func (e *Erd) AddRelationKeyValue() {
 }
 
 func (e *Erd) SetRelationLeft(text string) {
-	e.CurrentRelation.LeftTableName = replaceAllIllegal(text)
+	name := replaceAllIllegal(text)
+	e.CurrentRelation.LeftTableName = name
+	e.Connect(name)
 }
 
 func (e *Erd) SetCardinalityLeft(text string) {
@@ -163,7 +173,17 @@ func (e *Erd) SetCardinalityLeft(text string) {
 }
 
 func (e *Erd) SetRelationRight(text string) {
-	e.CurrentRelation.RightTableName = replaceAllIllegal(text)
+	name := replaceAllIllegal(text)
+	e.CurrentRelation.RightTableName = name
+	e.Connect(name)
+}
+
+func (e *Erd) CalcIsolated() {
+	for name, table := range e.Tables {
+		if !table.Connected {
+			e.Isolations = append(e.Isolations, name)
+		}
+	}
 }
 
 func (e *Erd) SetCardinalityRight(text string) {
@@ -182,7 +202,7 @@ func (e *Erd) Error(err error) {
 	panic(err)
 }
 
-func (c *Erd) Err(pos int, buffer string) {
+func (e *Erd) Err(pos int, buffer string) {
 	fmt.Println("")
 	a := strings.Split(buffer[:pos], "\n")
 	row := len(a) - 1
@@ -208,5 +228,5 @@ func (c *Erd) Err(pos int, buffer string) {
 	fmt.Println(s)
 
 	fmt.Println("error")
-	c.IsError = true
+	e.IsError = true
 }
