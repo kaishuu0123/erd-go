@@ -18,6 +18,7 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+// Options for the command line tool
 type Options struct {
 	OutFormat  string `short:"f" long:"fmt" description:"output format (dot only)"`
 	InputFile  string `short:"i" long:"input" description:"input will be read from the given file."`
