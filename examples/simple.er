@@ -10,7 +10,7 @@ colors {
     loc: "#ececfc",
 }
 
-[User.Person] {bgcolor: "person" label: "comment"}
+[Person] {bgcolor: "person"}
 *name
 height
 weight
@@ -22,16 +22,6 @@ city
 state
 country
 
-[isolated_1]
-*id
-
-[isolated_2]
-*id
-
-[isolated_3]
-*id
-
-
 # Each relationship must be between exactly two entities, which need not
 # be distinct. Each entity in the relationship has exactly one of four
 # possible cardinalities:
@@ -41,4 +31,4 @@ country
 # exactly 1      1
 # 0 or more      *
 # 1 or more      +
-User.Person *--1 Location {label: "line"}
+Person *--1 Location
