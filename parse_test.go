@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"strings"
 	"testing"
 	"text/template"
 )
@@ -46,7 +47,7 @@ Person *--1 Location
 	dot, _ := Asset("templates/dot.tmpl")
 	tables, _ := Asset("templates/dot_tables.tmpl")
 	relations, _ := Asset("templates/dot_relations.tmpl")
-	templates := template.Must(template.New("").Parse(string(dot) + string(tables) + string(relations)))
+	templates := template.Must(template.New("").Funcs(template.FuncMap{"StringsJoin": strings.Join}).Parse(string(dot) + string(tables) + string(relations)))
 
 	fd := bytes.NewBufferString("")
 	if err := templates.ExecuteTemplate(fd, "dot", parser.Erd); err != nil {
