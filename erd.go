@@ -62,7 +62,11 @@ func main() {
 	}
 
 	parser := &Parser{Buffer: contents}
-	parser.Init()
+	err = parser.Init()
+	if err != nil {
+		logStderr.Println(err)
+		os.Exit(1)
+	}
 	err = parser.Parse()
 	if err != nil {
 		logStderr.Println(err)
@@ -117,6 +121,10 @@ func main() {
 			os.Exit(1)
 		}
 	} else {
-		io.Copy(fd, &erdbuf)
+		n, err := io.Copy(fd, &erdbuf)
+		if err != nil {
+			logStderr.Printf("failed to copy buffer: err: %v, copied %d bytes\n", err, n)
+			os.Exit(1)
+		}
 	}
 }

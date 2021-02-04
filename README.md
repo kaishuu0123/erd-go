@@ -18,20 +18,20 @@ get binary from [releases page](https://github.com/kaishuu0123/erd-go/releases).
 
 or
 
-```
+```shell
 go get github.com/kaishuu0123/erd-go
 ```
 
 or (for Mac)
 
-```
+```shell
 brew tap kaishuu0123/erd-go
 brew install erd-go
 ```
 
 ## Usage
 
-```
+```shell
 Usage:
   erd-go [OPTIONS] PATTERN [PATH]
 
@@ -45,19 +45,19 @@ Help Options:
 
 support input from STDIN.
 
-```
+```shell
 cat examples/nfldb.er | erd-go
 ```
 
 ex.) convert to png from dot (use dot command)
 
-```
+```shell
 cat examples/nfldb.er | erd-go | dot -Tpng -o nfldb.png
 ```
 
 ## Usage (Used by Docker container)
 
-```
+```shell
 cat examples/nfldb.er | docker run --rm -i kaishuu0123/erd-go | docker run --rm -i risaacson/graphviz dot -T png > nfldb.png
 ```
 
@@ -68,19 +68,26 @@ see [examples directory](https://github.com/kaishuu0123/erd-go/blob/master/examp
 ## Build Instruction
 
 1. install glide
-    ```
+
+    ```shell
     go get github.com/Masterminds/glide
     ```
+
 1. install go-bindata
-    ```
+
+    ```shell
     go get github.com/jteeuwen/go-bindata
     ```
+
 1. install peg
-    ```
+
+    ```shell
     go get github.com/pointlander/peg
     ```
+
 1. make
-    ```
+
+    ```shell
     make
     ```
 
@@ -89,7 +96,8 @@ see [examples directory](https://github.com/kaishuu0123/erd-go/blob/master/examp
 MIT
 
 ## Credits
-This work is based off of several existing projects:
-* https://github.com/BurntSushi/erd
-* https://github.com/unok/erdm
 
+This work is based off of several existing projects:
+
+* <https://github.com/BurntSushi/erd>
+* <https://github.com/unok/erdm>

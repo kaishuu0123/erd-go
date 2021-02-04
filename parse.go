@@ -60,10 +60,9 @@ type Erd struct {
 	CurrentTableName string
 	IsError          bool
 	Colors           map[string]string
-	line             int
 }
 
-var re = regexp.MustCompile("[^a-zA-Z0-9\\_]")
+var re = regexp.MustCompile(`[^a-zA-Z0-9\\_]`)
 
 func replaceAllIllegal(text string) string {
 	return re.ReplaceAllString(text, "_")

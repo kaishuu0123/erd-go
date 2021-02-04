@@ -32,8 +32,11 @@ country
 Person *--1 Location
 	`
 	parser := &Parser{Buffer: contents}
-	parser.Init()
-	err := parser.Parse()
+	err := parser.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = parser.Parse()
 	if err != nil {
 		t.Fatal(err)
 	}
