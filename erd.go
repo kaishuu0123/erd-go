@@ -1,10 +1,15 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"syscall"
 	"text/template"
@@ -88,5 +93,29 @@ func main() {
 		}
 	}
 
-	templates.ExecuteTemplate(fd, "dot", parser.Erd)
+	var erdbuf bytes.Buffer
+	err = templates.ExecuteTemplate(&erdbuf, "dot", parser.Erd)
+	if err != nil {
+		logStderr.Println(err)
+		os.Exit(1)
+	}
+
+	// The OutFormat only works with Graphviz together
+	if opts.OutFormat != "" {
+		dotcmd := "dot"
+		if runtime.GOOS == "windows" {
+			dotcmd = "dot.exe"
+		}
+		cmd := exec.Command(dotcmd, fmt.Sprintf("-T%s", opts.OutFormat))
+		cmd.Stdin = &erdbuf
+		cmd.Stdout = fd
+		cmd.Stderr = fd
+		err = cmd.Run()
+		if err != nil {
+			logStderr.Println(err)
+			os.Exit(1)
+		}
+	} else {
+		io.Copy(fd, &erdbuf)
+	}
 }

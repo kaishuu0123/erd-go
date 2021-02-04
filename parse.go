@@ -47,6 +47,7 @@ type Erd struct {
 	Tables           map[string]*Table
 	Relations        []Relation
 	CurrentRelation  Relation
+	TableNames       []string // for ordering Isolations
 	Isolations       []string
 	key              string
 	value            string
@@ -83,6 +84,7 @@ func (e *Erd) AddTable(text string) {
 	}
 	name := replaceAllIllegal(text)
 	e.Tables[name] = &Table{Name: name, Title: text, TableAttributes: map[string]string{}}
+	e.TableNames = append(e.TableNames, name)
 	e.CurrentTableName = name
 }
 
@@ -179,9 +181,11 @@ func (e *Erd) SetRelationRight(text string) {
 }
 
 func (e *Erd) CalcIsolated() {
-	for name, table := range e.Tables {
-		if !table.Connected {
-			e.Isolations = append(e.Isolations, name)
+	for _, name := range e.TableNames {
+		if table, ok := e.Tables[name]; ok {
+			if !table.Connected {
+				e.Isolations = append(e.Isolations, name)
+			}
 		}
 	}
 }
