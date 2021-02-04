@@ -8,6 +8,7 @@ This is forked from <https://github.com/kaishuu0123/erd-go> and added following:
 1. Add support `label` to name
 1. Add support special characters in table name, such as `[Users.Profile]`
 1. Use horizontal layout for isolated nodes
+1. Integrate with `dot` output
 
 install this `go-bindata` by `go get -u -v github.com/kevinburke/go-bindata/...`
 
