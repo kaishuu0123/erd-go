@@ -1,6 +1,6 @@
 {{define "dot_tables"}}
 {{range $tk, $t := .Tables}}
-  {{.Title}} [label=<<TABLE
+  {{.Name}} [label=<<TABLE
       BORDER="0"
       CELLPADDING="0"
       CELLSPACING="0.5"
@@ -8,7 +8,12 @@
       ALIGN="CENTER"
       >
       <TR>
-        <TD ALIGN="CENTER" VALIGN="BOTTOM" WIDTH="134"><FONT POINT-SIZE="14" FACE="Helvetica bold"><B>{{.Title}}</B></FONT></TD>
+        <TD ALIGN="CENTER" VALIGN="BOTTOM" WIDTH="134">
+          <FONT POINT-SIZE="14" FACE="Helvetica bold"><B>{{.Title}}</B></FONT>
+          {{- if .TableAttributes.label -}}
+            <FONT FACE="Arial Italic" POINT-SIZE="10" COLOR="grey60">&nbsp;{{.TableAttributes.label}}</FONT>
+          {{- end -}}
+        </TD>
       </TR>
     </TABLE>
     {{- if .Columns -}}

@@ -1,10 +1,16 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"runtime"
+	"strings"
 	"syscall"
 	"text/template"
 
@@ -56,7 +62,11 @@ func main() {
 	}
 
 	parser := &Parser{Buffer: contents}
-	parser.Init()
+	err = parser.Init()
+	if err != nil {
+		logStderr.Println(err)
+		os.Exit(1)
+	}
 	err = parser.Parse()
 	if err != nil {
 		logStderr.Println(err)
@@ -68,12 +78,13 @@ func main() {
 	if parser.Erd.IsError {
 		os.Exit(1)
 	}
+	parser.Erd.CalcIsolated()
 
 	dot, _ := Asset("templates/dot.tmpl")
 	tables, _ := Asset("templates/dot_tables.tmpl")
 	relations, _ := Asset("templates/dot_relations.tmpl")
 	templates := template.Must(
-		template.New("").Parse(
+		template.New("").Funcs(template.FuncMap{"StringsJoin": strings.Join}).Parse(
 			string(dot) +
 				string(tables) +
 				string(relations)))
@@ -87,5 +98,33 @@ func main() {
 		}
 	}
 
-	templates.ExecuteTemplate(fd, "dot", parser.Erd)
+	var erdbuf bytes.Buffer
+	err = templates.ExecuteTemplate(&erdbuf, "dot", parser.Erd)
+	if err != nil {
+		logStderr.Println(err)
+		os.Exit(1)
+	}
+
+	// The OutFormat only works with Graphviz together
+	if opts.OutFormat != "" {
+		dotcmd := "dot"
+		if runtime.GOOS == "windows" {
+			dotcmd = "dot.exe"
+		}
+		cmd := exec.Command(dotcmd, fmt.Sprintf("-T%s", opts.OutFormat))
+		cmd.Stdin = &erdbuf
+		cmd.Stdout = fd
+		cmd.Stderr = fd
+		err = cmd.Run()
+		if err != nil {
+			logStderr.Println(err)
+			os.Exit(1)
+		}
+	} else {
+		n, err := io.Copy(fd, &erdbuf)
+		if err != nil {
+			logStderr.Printf("failed to copy buffer: err: %v, copied %d bytes\n", err, n)
+			os.Exit(1)
+		}
+	}
 }

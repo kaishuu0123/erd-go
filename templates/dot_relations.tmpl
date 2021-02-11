@@ -5,6 +5,8 @@
     arrowhead=ocrow,headlabel=<<FONT>0..N</FONT>>,
     {{- else if (eq .RightCardinality "+")}}
     arrowhead=ocrowtee,headlabel=<<FONT>1..N</FONT>>,
+    {{- else if (eq .RightCardinality "?")}}
+    arrowhead=ocrowtee,headlabel=<<FONT>{0,1}</FONT>>,
     {{- else -}}
     arrowhead=noneotee,headlabel=<<FONT>{{.RightCardinality}}</FONT>>,
     {{- end -}}
@@ -15,9 +17,14 @@
     arrowtail=ocrow,taillabel=<<FONT>0..N</FONT>>
     {{- else if (eq .LeftCardinality "+")}}
     arrowtail=ocrowtee,taillabel=<<FONT>1..N</FONT>>
+    {{- else if (eq .LeftCardinality "?")}}
+    arrowtail=ocrowtee,taillabel=<<FONT>{0,1}</FONT>>
     {{- else -}}
     arrowtail=noneotee,taillabel=<<FONT>{{.LeftCardinality}}</FONT>>
     {{- end -}}
   ];
+{{- end -}}
+{{ if gt (len .Isolations) 1 }}
+  {{ StringsJoin .Isolations " -- "}} [style=invis]
 {{- end -}}
 {{- end -}}

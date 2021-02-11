@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -31,11 +32,13 @@ type Column struct {
 
 // Table in a database
 type Table struct {
+	Name            string
 	Title           string
 	TableAttributes map[string]string
 	Columns         []Column
 	CurrentColumnID int
 	PrimaryKeys     []int
+	Connected       bool
 }
 
 // Title ...
@@ -50,16 +53,24 @@ type Erd struct {
 	Tables           map[string]*Table
 	Relations        []Relation
 	CurrentRelation  Relation
+	TableNames       []string // for ordering Isolations
+	Isolations       []string
 	key              string
 	value            string
 	CurrentTableName string
 	IsError          bool
-	line             int
+	Colors           map[string]string
 }
 
-func (e *Erd) addTableTitle(t string) {
-	t = strings.Trim(t, "\"")
-	e.Tables[e.CurrentTableName].Title = t
+var re = regexp.MustCompile(`[^a-zA-Z0-9\\_]`)
+
+func replaceAllIllegal(text string) string {
+	return re.ReplaceAllString(text, "_")
+}
+
+// Connect marks the table is connected to another
+func (t *Table) Connect() {
+	t.Connected = true
 }
 
 // ClearTableAndColumn clears the current table
@@ -80,8 +91,10 @@ func (e *Erd) AddTable(text string) {
 	if e.Tables == nil {
 		e.Tables = map[string]*Table{}
 	}
-	e.Tables[text] = &Table{Title: text, TableAttributes: map[string]string{}}
-	e.CurrentTableName = text
+	name := replaceAllIllegal(text)
+	e.Tables[name] = &Table{Name: name, Title: text, TableAttributes: map[string]string{}}
+	e.TableNames = append(e.TableNames, name)
+	e.CurrentTableName = name
 }
 
 // AddTableKeyValue add a key value pair to the table attributes
@@ -90,7 +103,23 @@ func (e *Erd) AddTableKeyValue() {
 	if table.TableAttributes == nil {
 		table.TableAttributes = map[string]string{}
 	}
-	table.TableAttributes[e.key] = e.value
+
+	val := e.value
+	if strings.Contains(e.key, "color") {
+		v, ok := e.Colors[e.value]
+		if ok {
+			val = v
+		}
+	}
+	table.TableAttributes[e.key] = val
+}
+
+// AddColorDefine stores the named color palette
+func (e *Erd) AddColorDefine() {
+	if e.Colors == nil {
+		e.Colors = map[string]string{}
+	}
+	e.Colors[e.key] = e.value
 }
 
 // AddColumn adds a column to the EDR
@@ -132,6 +161,13 @@ func (e *Erd) SetValue(text string) {
 	}
 }
 
+// Connect set the table status as connected, for rendering horizontal isolated nodes later
+func (e *Erd) Connect(name string) {
+	if table, ok := e.Tables[name]; ok {
+		table.Connect()
+	}
+}
+
 // AddRelation adds the current relation to the EDR
 func (e *Erd) AddRelation() {
 	e.Relations = append(e.Relations, e.CurrentRelation)
@@ -148,7 +184,9 @@ func (e *Erd) AddRelationKeyValue() {
 
 // SetRelationLeft sets the left side of the current relation
 func (e *Erd) SetRelationLeft(text string) {
-	e.CurrentRelation.LeftTableName = text
+	name := replaceAllIllegal(text)
+	e.CurrentRelation.LeftTableName = name
+	e.Connect(name)
 }
 
 // SetCardinalityLeft sets the left cardinality of the current relation
@@ -158,7 +196,19 @@ func (e *Erd) SetCardinalityLeft(text string) {
 
 // SetRelationRight sets the right side of the current relation
 func (e *Erd) SetRelationRight(text string) {
-	e.CurrentRelation.RightTableName = text
+	name := replaceAllIllegal(text)
+	e.CurrentRelation.RightTableName = name
+	e.Connect(name)
+}
+
+func (e *Erd) CalcIsolated() {
+	for _, name := range e.TableNames {
+		if table, ok := e.Tables[name]; ok {
+			if !table.Connected {
+				e.Isolations = append(e.Isolations, name)
+			}
+		}
+	}
 }
 
 // SetCardinalityRight sets the right cardinality of the current relation
